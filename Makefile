@@ -1,4 +1,4 @@
-# -*- MakeFile -*- 
+# -*- MakeFile Levana
 
 
 mymaths: power.o basicMath.o
