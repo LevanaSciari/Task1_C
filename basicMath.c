@@ -1,6 +1,4 @@
-
 #include "myMath.h"
-
 
 float add(float x , float y){
 float result=x+y;
@@ -24,3 +22,4 @@ double div(double x, int y){
 
 return result;
 }
+

@@ -1,19 +1,29 @@
-# Makefile for Task1
-
-mymaths: recv_udp.c
-	gcc -o recv_udp recv_udp.c
-
-mymathd: send_udp.c
-	gcc -o send_udp send_udp.c
+# -*- MakeFile -*- 
 
 
-mains: send_udp.c
-	gcc -o send_udp send_udp.c
+mymaths: power.o basicMath.o
+	ar -rcs libmyMath.a power.o basicMath.o
 
-maind: send_udp.c
-	gcc -o send_udp send_udp.c
+mymathd: power.o basicMath.o
+	gcc -Wall -g -o libmyMath.so -shared power.o basicMath.o 
+power.o: power.c myMath.h
+	gcc -Wall -g -c power.c
+basicMath.o: basicMath.c myMath.h
+	gcc -Wall -g -c basicMath.c
 
-all: recv_udp send_udp
- 
+mains: main.o mymaths
+	gcc -Wall -g -o mains main.o libmyMath.a
+maind: main.o mymathd
+	gcc -Wall -g -o maind main.o ./libmyMath.so
+main.o: main.c myMath.h
+	gcc -c main.c
+
 clean:
-	rm -f *.o
+	rm -f *.o *.a *.so mains maind
+
+all: mymaths mymathd mains maind main.o power.o basicMath.o
+
+git: 
+	git add --all
+	git commit -m "Add"
+	git push
